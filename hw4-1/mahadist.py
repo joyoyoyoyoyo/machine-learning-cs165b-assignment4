@@ -1,5 +1,6 @@
 import re, sys
 import numpy as np
+from numpy import linalg # required for matrix multiplication or division
 
 def load_data(training_or_testing_file):
     '''
