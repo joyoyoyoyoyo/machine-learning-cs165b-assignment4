@@ -30,7 +30,9 @@ def centroid(*points):
   p3 = [0.0, 0.0] # 0.72
   p4 = [7.0, 7.0] # 2.82
   #centroid = (1/4)*np.abs((p1[0]-p2[0])+np.abs(p1[0]-p3[0])+np.abs(p1[0]-p4[0])+p3[0]+p4[0])
-  print centroid
+  centroid = [0.8, -2.1]
+  # how would I print the list of elements in centroid?
+  print 'Centroid\n {}'.format(centroid)
 
 #def mahalanobis(*points, *origin):
 #
