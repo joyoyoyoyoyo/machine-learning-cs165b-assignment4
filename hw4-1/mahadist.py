@@ -11,14 +11,23 @@ def load_data(training_or_testing_file):
     with open(training_or_testing_file) as file:
         num_points, point_dimensionality = map(int, re.split('\s+', file.readline().strip()))
     file.close()
+
     # Data is (n_samples, n_features)
     data = np.loadtxt(training_or_testing_file, skiprows=1, usecols=range(1, point_dimensionality-1))
+
+
     print data
     predictors, targets = data[:,:point_dimensionality-1], data[:,point_dimensionality-1]
     print predictors
     print targets
     # X_train, X_test, y_train, y_test = model_selection.train_test_split(predictors, targets, random_state=0)
     return predictors, targets
+
+def mahalanobis(*points, *origin):
+
+    np.sqrt()
+# def scatter_mat(*observations_vec)
+
 
 # def covariance_matrix(observations_vec):
 
