@@ -15,46 +15,50 @@ def load_data(training_or_testing_file):
 
     # Data is (n_samples, n_features)
     data = np.loadtxt(training_or_testing_file, skiprows=1, usecols=range(1, point_dimensionality-1))
+    return data, num_points, point_dimensionality
 
 
-    print data
-    predictors, targets = data[:,:point_dimensionality-1], data[:,point_dimensionality-1]
-    print predictors
-    print targets
-    # X_train, X_test, y_train, y_test = model_selection.train_test_split(predictors, targets, random_state=0)
-    return predictors, targets
+def compute_centroid(data):
+    '''
+    
+    :param data: 
+    :return: mean numpy array of column means 
+    '''
+    mean = data.sum(axis=0) / float(len(data))  # element wise divide
+    # centroid = np.mean(data, axis=0)
+    return mean
 
-def centroid(*points):
-  p1 = [2.3, 1.2] # 0.97
-  p2 = [0.9, -3.1] # 0.32
-  p3 = [0.0, 0.0] # 0.72
-  p4 = [7.0, 7.0] # 2.82
-  #centroid = (1/4)*np.abs((p1[0]-p2[0])+np.abs(p1[0]-p3[0])+np.abs(p1[0]-p4[0])+p3[0]+p4[0])
-  centroid = [0.8, -2.1]
-  # how would I print the list of elements in centroid?
-  print 'Centroid\n {}'.format(centroid)
+def compute_covariance(data):
+    '''
+    
+    :param data: 
+    :return: 
+    '''
+    centroid = compute_centroid(data)
+    variance = np.subtract(data, centroid)
+    covariance_mat = variance.dot(variance.T) / float(len(data))
+    # variance = data - centroid
+    # varianceT = variance.transpose()
+    # covariance_mat = variance.transpose().dot(variance)/float(len(data))
 
-#def mahalanobis(*points, *origin):
-#
- #   np.sqrt()
-# def scatter_mat(*observations_vec)
-
-
-# def covariance_matrix(observations_vec):
+    return covariance_mat
 
 
 if __name__ == "__main__":
     training_file = sys.argv[1]
     testing_file = sys.argv[2]
+    data, num_points, point_dimensionality = load_data(training_file)
 
-    centroid(1)
+    centroid = compute_centroid(data)
+    # print 'Centroid:\n' + ','.join(' {0:.2f}'.format(v, i) for i,v in enumerate(centroid))
+    print 'Centroid:\n' + ', '.join('{0:.2f}'.format(v, i) for i, v in enumerate(centroid))
 
-    # raw_movie_data = pd.read_csv(training_file, delimiter=r'\s+').dropna()
-    # movie_data = raw_movie_data.drop(raw_movie_data.columns[0], axis=1)
-    #X_train, y_train_target = load_data(training_file)
-    # X_test, y_test_target = load_data(testing_file)
-    # movie_data = transform_N_class_to_binarized(movie_data)
-    # print prediction_train
+    covariance_mat = compute_covariance(data)
+    print covariance_mat
+    print '\n\n'
+    print np.cov(data[:], bias=True)
+    # print np.cov(data, ddof=0)
+
 
 
 
