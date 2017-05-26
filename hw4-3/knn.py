@@ -3,21 +3,25 @@ import numpy as np
 from numpy import linalg  # required for matrix multiplication or division
 
 
-def load_data(training_or_testing_file):
+def load_data(training_file, is_supervised_data=False):
     '''
     Dynamically transform a data file into a numpy ndarray with any N features.
     The first column is ignored because the record number does not add any values as a feature
     :param training_file:
     :return:
     '''
-    with open(training_or_testing_file) as file:
+    with open(training_file) as file:
         num_points, point_dimensionality = map(int, re.split('\s+', file.readline().strip()))
     file.close()
 
     # Data is (n_samples, n_features)
-    data = np.loadtxt(training_or_testing_file, skiprows=1, usecols=range(0, point_dimensionality))
-    return data, num_points, point_dimensionality
 
+    if is_supervised_data:
+        data = np.loadtxt(training_file, skiprows=1, usecols=range(0, point_dimensionality + 1))
+    else:
+        data = np.loadtxt(training_file, skiprows=1, usecols=range(0, point_dimensionality))
+
+    return data, num_points, point_dimensionality
 
 if __name__ == "__main__":
     if len(sys.argv) != 4:
@@ -28,8 +32,10 @@ if __name__ == "__main__":
         training_file = sys.argv[2]
         testing_file = sys.argv[3]
 
-    data, num_points, point_dimensionality = load_data(training_file)
+    data, num_points, point_dimensionality = load_data(training_file, is_supervised_data=True)
 
+    predictors = data[:,0:-1]
+    labels = data[:,-1]
     print data.shape
     print 'Success'
 
