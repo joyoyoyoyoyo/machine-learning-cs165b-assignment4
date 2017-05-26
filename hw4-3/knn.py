@@ -1,3 +1,4 @@
+#!/usr/bin/python2.7
 import re, sys
 import numpy as np
 from numpy import linalg  # required for matrix multiplication or division
@@ -35,12 +36,6 @@ def euclidian(x, y):
     return sum(diff)
 
 def knn(k, training_data, testing_data, labels, outputfilename):
-    print 'knn starting...'
-
-    # output = {'sample_point':
-    #               {'coordinates': [],
-    #                'label': None,
-    #                 'other_points': {'distance_sample_point': 'euclidian_distance': None}]}
     with open(outputfilename, 'w') as file:
         for i, test_sample in enumerate(testing_data):
             distances = {}
@@ -66,36 +61,15 @@ def knn(k, training_data, testing_data, labels, outputfilename):
             nearest_neighbors = {key: min(v) for key, v in votes.items() if len(v) == top}
             lowest = {key: v for key,v in nearest_neighbors.items() if v == min(nearest_neighbors.values())}
             predicted_class = min(lowest.keys())
-            # {k: v for k, v in votes.items() if v[lowest] == lowest}
-            # x = min(nearest_neighbors, key=nearest_neighbors.get)
 
-            # new_dict = defaultdict()
-            # for k, v in votes.iteritems():
-            #     new_dict[v].append(k)
 
-            # max_overall = max(votes, key= lambda key: votes[key])
-            # max_overall = [v for v in sorted(len(votes.items()), key=lambda kv: (-kv[1], kv[0]))]
-
-            # min_dict = max_overall[0]
-            # predicted = min_dict[0]
-            # predicted = [v[0] for v in sorted(votes.items(), key=lambda kv: (-kv[1], kv[0]))
-
-            line = ' '.join('{0:.4f}'.format(v, i) for i, v in enumerate(test_sample))
+            line = ' '.join('{0:.1f}'.format(v, i) for i, v in enumerate(test_sample))
             predicted_class = str(predicted_class)
-            # file.write(str(i + 1) + '. ' + str(line) + ' -- ' + str(int(label)) + '\n')
             file.write('{0} . {1} -- {2}\n'.format(i+1, line, predicted_class))
-            # file.write('{0} . Minimum:\t{1:.4f} -- {2}\n'.format(i+1, min_dist, int(predicted)))
 
     file.close()
 
-    print 'knn finished...'
-    # return output
 
-
-
-
-            # num_points, point_dimensionality = map(int, re.split('\s+', file.readline().strip()))
-    # file.close()
 
 
 if __name__ == "__main__":
@@ -119,9 +93,6 @@ if __name__ == "__main__":
 
     knn(k, training_data, testing_data, labels, outputfilename=outputfile)
 
-    # write_to_output(predicted, 'output1.txt')
-
-    print 'Success'
 
 
     # print 'Centroid:\n' + ','.join(' {0:.2f}'.format(v, i) for i,v in enumerate(centroid))
