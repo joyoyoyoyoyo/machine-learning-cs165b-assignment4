@@ -15,3 +15,7 @@ val sparkVersion = "2.1.1"
 libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-core" % sparkVersion % "provided"
 )
+
+mainClass in Compile := Some("KNN")
+
+
