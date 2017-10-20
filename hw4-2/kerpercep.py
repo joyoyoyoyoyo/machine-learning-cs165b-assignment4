@@ -37,6 +37,7 @@ def load_data(training_file):
     data = np.loadtxt(training_file, skiprows=1, usecols=range(0, point_dimensionality))
     return data, num_points, point_dimensionality
 
+class PerceptronModel():
 
 class PerceptronModel():
 
@@ -152,5 +153,3 @@ if __name__ == "__main__":
 
     error_rate = 1 - (sum(pos_hits) / float(len(y_testing_targets)))
     print 'Error rate:\t{0}%'.format(int(error_rate*100))
-
-
